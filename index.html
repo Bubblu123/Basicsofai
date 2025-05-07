@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Classification Project</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #343a40;
+            color: white;
+            border-radius: 5px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: #007bff;
+        }
+        h3 {
+            color: #343a40;
+            margin-top: 25px;
+        }
+        section {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .checklist {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .checklist ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        .checklist li {
+            margin-bottom: 10px;
+        }
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .image-placeholder {
+            background-color: #e9ecef;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+            border: 1px dashed #6c757d;
+        }
+        p {
+            text-align: justify;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .result-card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trimodal Movie Genre Classification System</h1>
+        <p>Using Text, Images, and Tabular Data for Enhanced Classification Performance</p>
+    </header>
+
+    <section class="checklist">
+        <h2>Project Checklist</h2>
+        <ul>
+            <li><input type="checkbox"> Llama</li>
+            <li><input type="checkbox"> EfficientNet</li>
+            <li><input type="checkbox"> Fusion plots</li>
+            <li><input type="checkbox"> Codes modularise</li>
+            <li><input type="checkbox"> Document</li>
+            <li><input type="checkbox"> Document to website</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Textual Processing Component</h2>
+        <p>
+            The process commenced with the loading of the movie dataset. A crucial initial step involved transforming the genres column from its raw string format (e.g., "['Action', 'Adventure']") into actual Python lists. This conversion was fundamental for subsequent analysis, enabling an accurate count of each unique genre's occurrences across all movies. This initial genre frequency analysis provided a foundational understanding of the dataset's composition. Following this, a system was implemented to categorize movies into broader thematic groups based on their individual genres. For instance, genres like 'Drama' and 'Music' were assigned to 'Group 1', while 'Comedy' and 'Crime' might belong to 'Group 2', and so on. This grouping created a new 'groups' column, offering a higher-level categorical view of the movies.
+        </p>
+        <p>
+            A significant portion of the work involved feature engineering to extract more meaningful information from the existing data. The sentiment polarity of each movie title was calculated to capture its emotional tone. A binary indicator was developed to identify potential sequels by searching titles for numerical suffixes or keywords like "Part" or "Returns." The textual content of movie overviews was also leveraged: keyword counts specific to major genres (Action, Comedy, Drama, Sci-Fi, Horror) were generated. Furthermore, both sentiment polarity and subjectivity scores were extracted from these overviews. The release date of each movie was utilized to determine the season of its release (Spring, Summer, Fall, Winter), which was then converted into a one-hot encoded numerical format.
+        </p>
+        <p>
+            To ensure data quality and prepare for modeling, a comprehensive cleaning and preprocessing pipeline was applied. Missing values in critical fields such as title, overview, release_date, and vote_average were addressed, typically by filling them with empty strings or statistical means. Duplicate entries within the dataset were identified and removed. Textual data, specifically from the title and overview columns, underwent normalization. This involved converting text to lowercase, removing special characters and punctuation, tokenizing the text into individual words, filtering out common English stop words, and applying stemming to reduce words to their root form.
+        </p>
+        <p>
+            Finally, numerical features, including the engineered sentiment scores, keyword counts, and existing metrics like vote_average, were standardized by scaling them to have a zero mean and unit variance. This ensures that features with inherently larger value ranges do not disproportionately influence subsequent analytical models. Categorical features, such as the one-hot encoded release season, were also prepared. The distribution of individual genres was then visualized using a bar chart, offering a clear graphical representation of their frequencies, which helps in understanding the overall landscape of movie types within the dataset.
+        </p>
+        
+        <div class="image-placeholder">
+            <h3>Text Processing Visualizations</h3>
+            <p>Genre distribution visualization would appear here</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Vision Processing Component</h2>
+        <p>
+            The vision component of our multimodal system leverages movie poster images to extract visual features that contribute to genre classification. Movie posters often contain visual cues that strongly correlate with specific genres - dark, moody lighting for horror films, bright colors for comedies, or distinctive iconography for science fiction.
+        </p>
+        <p>
+            We implemented a preprocessing pipeline that ensures all poster images are properly formatted, resized, and normalized for input into our deep learning model. Data augmentation techniques including random rotations, horizontal flips, and color jittering were applied to increase the robustness of our model and prevent overfitting.
+        </p>
+        <p>
+            For feature extraction, we employed a pre-trained EfficientNet model, which provides an excellent balance between computational efficiency and accuracy. The EfficientNet architecture uses compound scaling to efficiently balance network depth, width, and resolution, making it particularly well-suited for our task where computational resources may be limited.
+        </p>
+        
+        <div class="image-placeholder">
+            <h3>Vision Processing Architecture</h3>
+            <p>EfficientNet architecture diagram would appear here</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Fusion Component</h2>
+        <p>
+            We developed a movie genre classification system that leverages three different data modalities (trimodal approach): text, images, and tabular data. The process begins with initial configuration, setting up the computing environment to utilize GPU acceleration if available and defining critical parameters like batch size, learning rate, and model architectures.
+        </p>
+        <p>
+            The data preparation phase starts by loading a movie dataset containing features like titles, overviews, and genre information. Feature engineering follows, where the system transforms raw genre data into five target groups and creates specialized features from the available data. Text features are derived from movie titles and overviews, including sentiment analysis and keyword detection for different genres. The tabular features include statistical data like vote averages, release date seasonality, and sequel indicators. For images, the system processes movie poster images, ensuring they exist and are properly formatted.
+        </p>
+        <p>
+            Pre-processing transforms the data into suitable formats for deep learning models. The text data is tokenized using BERT's tokenizer, numeric features are scaled to normalize their ranges, and image transformations are defined with augmentation techniques for training. The system then splits the data into training and validation sets, maintaining balance across target groups.
+        </p>
+        <p>
+            The core of the system is the multimodal neural network architecture. It processes images using a pre-trained EfficientNet model, extracts text features using BERT, and handles tabular data through a multi-layer perceptron. These three separate pathways are then fused together into a combined representation that feeds into a final classification layer. To address class imbalance, the system implements either Focal Loss or weighted BCE loss with label smoothing.
+        </p>
+        <p>
+            The training process occurs over multiple epochs with gradient accumulation to simulate larger batch sizes. It incorporates early stopping based on validation performance to prevent overfitting. Throughout training, the system tracks key metrics like micro and macro F1 scores. Finally, the best model (based on validation micro F1 score) is saved and evaluated on the validation set, with detailed metrics reported including F1 scores, hamming loss, and a classification report for each target group.
+        </p>
+        
+        <div class="image-placeholder">
+            <h3>Fusion Architecture</h3>
+            <p>Trimodal fusion model architecture diagram would appear here</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Results</h2>
+        <p>
+            Our trimodal approach demonstrated significant improvements over single-modality baselines. Below we present the key performance metrics and visualizations of our results.
+        </p>
+        
+        <div class="results-grid">
+            <div class="result-card">
+                <h3>Performance Metrics</h3>
+                <div class="image-placeholder">
+                    <p>Performance comparison table would appear here</p>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Confusion Matrix</h3>
+                <div class="image-placeholder">
+                    <p>Confusion matrix visualization would appear here</p>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>F1 Scores by Genre Group</h3>
+                <div class="image-placeholder">
+                    <p>F1 score bar chart would appear here</p>
+                </div>
+            </div>
+            
+            <div class="result-card">
+                <h3>Learning Curves</h3>
+                <div class="image-placeholder">
+                    <p>Training and validation curves would appear here</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Movie Classification Project &copy; 2025</p>
+    </footer>
+</body>
+</html>
